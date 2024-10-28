@@ -1,10 +1,12 @@
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
  * Class representing a customer.
  */
 public class Customer implements Serializable {
+    private static final DecimalFormat df = new DecimalFormat("0.00");
     private static final long serialVersionUID = 1L;
     private int id;
     private String name;
@@ -99,7 +101,7 @@ public class Customer implements Serializable {
             }
             invoice.addItem(newOI);
         }
-        setBalance(balance - invoice.getPrice());
+        setBalance(Double.parseDouble(df.format(balance - invoice.getPrice())));
         addInvoice(invoice);
         userWishlist.clear();
         return invoice;

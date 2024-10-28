@@ -1,6 +1,8 @@
 import java.util.*;
 import java.io.*;
+import java.text.DecimalFormat;
 public class Product implements Serializable{
+    private static final DecimalFormat df = new DecimalFormat("0.00");
     private int id;
     private String name;
     private int quantity;
@@ -53,7 +55,9 @@ public class Product implements Serializable{
                 OrderItem oi = new OrderItem(this, wli.getQuantity());
                 Invoice in = new Invoice();
                 in.addItem(oi);
-                wli.getCustomer().addInvoice(in);
+                Customer c = wli.getCustomer();
+                c.setBalance(Double.parseDouble(df.format(c.getBalance() - in.getPrice())));
+                c.addInvoice(in);
                 remaining = remaining - wli.getQuantity();
                 waitlist.remove(wli);
             }
